@@ -1,0 +1,23 @@
+# Machine-specific settings for mirror.py.
+
+# Obsidian vault to mirror, and the folder that receives the PDF tree.
+vault = "/Users/daniel/obsidian/Daniel Vault"
+output = "/Users/daniel/Dropbox/obsidian_pdf_mirror"
+
+# Vault-relative paths or file/folder names (glob patterns) to skip.
+# Hidden folders (.obsidian, .git, .trash, ...) are always skipped.
+exclude = [
+  "98 - Templates",
+  "99 - Archive",
+  "Clippings",
+  "*.excalidraw.md",
+]
+
+# Parallel renders.
+jobs = 4
+
+# Rendering (changing these re-renders every note).
+paper = "a4"
+font = "Helvetica Neue"
+codefont = "Menlo"
+lang = "de"
