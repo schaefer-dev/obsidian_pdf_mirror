@@ -19,7 +19,7 @@
     <key>PATH</key>
     <string>__PATH__</string>
   </dict>
-  <!-- Every 15 min; intervals missed during sleep are coalesced into one run on wake. -->
+  <!-- Hourly by default; intervals missed during sleep are coalesced into one run on wake. -->
   <key>StartInterval</key>
   <integer>__INTERVAL__</integer>
   <key>RunAtLoad</key>

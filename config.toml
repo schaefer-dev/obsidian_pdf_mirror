@@ -2,7 +2,7 @@
 
 # Obsidian vault to mirror, and the folder that receives the PDF tree.
 vault = "/Users/daniel/obsidian/Daniel Vault"
-output = "/Users/daniel/Dropbox/obsidian_pdf_mirror"
+output = "/Users/daniel/Dropbox/Supernote/Document/obsidian_pdf_mirror"
 
 # Vault-relative paths or file/folder names (glob patterns) to skip.
 # Hidden folders (.obsidian, .git, .trash, ...) are always skipped.

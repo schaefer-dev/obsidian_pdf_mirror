@@ -1,7 +1,7 @@
 # Obsidian → PDF mirror
 
 Keeps a PDF copy of every note in an Obsidian vault in a separate folder tree (e.g. in Dropbox),
-using pandoc → Typst. Runs every 15 minutes via launchd and only re-renders notes that changed.
+using pandoc → Typst. Runs hourly via launchd (and on demand via `obsidian-sync`) and only re-renders notes that changed.
 
 - **Incremental:** notes whose mtime/size, content hash and embedded files (images, transcluded notes)
   are unchanged are skipped. An idle run takes ~0.1 s.
@@ -18,19 +18,21 @@ Dataview queries and Mermaid diagrams are shown as code. PDF and other attachmen
 ## Setup (any Mac)
 
 1. Edit `config.toml` (vault path, output path, excludes).
-2. `./install.sh` installs pandoc and typst (Homebrew), uv if missing, and the launchd agent.
+2. `./install.sh` installs pandoc and typst (Homebrew), uv if missing, the launchd agent, and the
+   `obsidian-sync` command (symlinked into `~/.local/bin`).
    The first run starts immediately (~30 s for ~900 notes).
 
-`./uninstall.sh` removes the agent.
+`./uninstall.sh` removes the agent and the command. To run every 30 minutes instead of hourly:
+`INTERVAL=1800 ./install.sh`.
 
 ## Manual use
 
 ```sh
-uv run mirror.py --dry-run        # show what would change
-uv run mirror.py -v               # sync now, list each file
-uv run mirror.py --full           # re-render everything
-uv run mirror.py --only "04 - Tech/Note.md"
-launchctl kickstart gui/$(id -u)/local.obsidian-pdf-mirror   # trigger the agent now
+obsidian-sync                     # sync now
+obsidian-sync --dry-run           # show what would change
+obsidian-sync -v                  # sync now, list each file
+obsidian-sync --full              # re-render everything
+obsidian-sync --only "04 - Tech/Note.md"
 ```
 
 ## Files
@@ -40,6 +42,7 @@ launchctl kickstart gui/$(id -u)/local.obsidian-pdf-mirror   # trigger the agent
 | `mirror.py` | Scan, change detection, Obsidian-syntax preprocessing, rendering, deletions |
 | `render/obsidian.lua` | pandoc filter: callouts, embeds, tasks, images, links |
 | `render/template.typ` | pandoc Typst template: page layout, fonts, callout styles |
+| `bin/obsidian-sync` | On-demand sync command (symlinked by `install.sh`) |
 | `launchd/mirror.plist.template` | launchd agent, filled in by `install.sh` |
 | `.state/` | state.json, mirror.log (gitignored, machine-local) |
 

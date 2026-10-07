@@ -1,0 +1,7 @@
+#!/bin/bash
+# Sync the Obsidian PDF mirror now (same job launchd runs hourly).
+# Extra arguments are passed to mirror.py, e.g. `obsidian-sync --full` or `--dry-run`.
+set -euo pipefail
+
+PROJECT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
+exec uv run --quiet "$PROJECT/mirror.py" "$@"

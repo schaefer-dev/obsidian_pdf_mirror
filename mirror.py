@@ -555,7 +555,7 @@ def main() -> int:
     try:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except BlockingIOError:
-        if args.verbose:
+        if args.verbose or sys.stdout.isatty():
             log("another run is in progress, exiting")
         return 0
 
@@ -673,7 +673,7 @@ def main() -> int:
     state = {"version": STATE_VERSION, "renderer": rhash, "notes": new_notes}
     save_state(args.state, state)
 
-    if to_render or deleted or args.verbose:
+    if to_render or deleted or args.verbose or sys.stdout.isatty():
         log(
             f"{len(vault.notes)} notes: {written} written, {unchanged} re-rendered identical, "
             f"{deleted} deleted, {failed} failed, "
